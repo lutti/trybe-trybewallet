@@ -1,5 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { DoLogin } from '../redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -19,20 +22,24 @@ class Login extends React.Component {
 
     this.setState({
       [name]: value,
-      enterDisabled: this.isButtonDisabled(),
-    });
+    }, () => this.isButtonDisabled());
   }
 
   isValidEmail = (email) => /\S+@\S+\.\S+/.test(email);
 
   isButtonDisabled = () => {
     const { email, password } = this.state;
-    const minPassLenght = 4;
+    const minPassLenght = 5;
 
-    return !(this.isValidEmail(email) && password.length > minPassLenght);
+    this.setState({
+      enterDisabled: !(this.isValidEmail(email) && password.length > minPassLenght),
+    });
   };
 
   loginEvent = () => {
+    const { email } = this.state;
+    const { dispatch } = this.props;
+    dispatch(DoLogin(email));
     this.setState({
       loginDone: true,
     });
@@ -67,15 +74,21 @@ class Login extends React.Component {
             value={ password }
           />
         </label>
-        <input
+        <button
           type="button"
-          value="Entrar"
+          // value="Entrar"
           onClick={ this.loginEvent }
           disabled={ enterDisabled }
-        />
+        >
+          Entrar
+        </button>
       </div>
     );
   }
 }
 
-export default Login;
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+export default connect()(Login);
