@@ -9,8 +9,11 @@ const INITIAL_STATE = {
 
 function wallet(state = INITIAL_STATE, action) {
   switch (action.type) {
-  case 'NEW_ACTION':
-    return { state: action.state };
+  case 'LISTAR_CURRENCIES':
+    return {
+      ...state,
+      currencies: action.curr,
+    };
   default:
     return state;
   }
