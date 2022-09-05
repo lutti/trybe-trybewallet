@@ -6,6 +6,11 @@ const receberListaCurrencies = (curr) => ({
   curr }
 );
 
+const actionAddDespesa = (payload) => ({
+  type: 'ADICIONAR_DESPESA',
+  payload }
+);
+
 export function fetchCurrencies() {
   return async (dispatch) => {
     const promiseCurr = await fetch('https://economia.awesomeapi.com.br/json/all');
@@ -17,9 +22,9 @@ export function fetchCurrencies() {
 
 export function addDespesa(payload) {
   return async (dispatch) => {
-    const promiseCurr = await fetch('https://economia.awesomeapi.com.br/json/alla');
+    const promiseCurr = await fetch('https://economia.awesomeapi.com.br/json/all');
     const objCurr = await promiseCurr.json();
     payload.exchangeRates = objCurr;
-    dispatch(receberListaCurrencies(listaDeCurrString));
+    dispatch(actionAddDespesa(payload));
   };
 }

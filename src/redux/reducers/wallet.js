@@ -14,6 +14,11 @@ function wallet(state = INITIAL_STATE, action) {
       ...state,
       currencies: action.curr,
     };
+  case 'ADICIONAR_DESPESA':
+    return {
+      ...state,
+      expenses: [...state.expenses, { id: state.expenses.length, ...action.payload }],
+    };
   default:
     return state;
   }
