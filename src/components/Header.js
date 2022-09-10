@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { getAskFromRates } from '../Utilidades';
 
 class Header extends Component {
-  getAskFromRates = ({ exchangeRates, currency }) => (
-    Object.entries(exchangeRates)
-      .filter((item) => item[0] === currency)
-      .map((item) => item[1].ask)
-  );
-
   render() {
     const { email, expenses } = this.props;
     // if (expenses.lenght > 0) {
     // this.getAskFromRates(expenses[0].exchangeRates, 'USD');
     const sItem = expenses.map((item) => (
-      parseFloat(this.getAskFromRates(item)) * parseFloat(item.value)
+      parseFloat(getAskFromRates(item)) * parseFloat(item.value)
     ));
     const total = sItem.reduce((acc, cur) => (acc + cur), 0).toFixed(2);
 

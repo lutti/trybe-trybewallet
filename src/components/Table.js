@@ -2,20 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { actionDeleteDespesa } from '../redux/actions';
+import { getAskFromRates, getCurrencyDescFromRates } from '../Utilidades';
 
 class Table extends Component {
-  getAskFromRates = ({ exchangeRates, currency }) => (
-    Object.entries(exchangeRates)
-      .filter((item) => item[0] === currency)
-      .map((item) => item[1].ask)
-  );
-
-  getCurrencyDescFromRates = ({ exchangeRates, currency }) => (
-    Object.entries(exchangeRates)
-      .filter((item) => item[0] === currency)
-      .map((item) => item[1].name)
-  );
-
   deleteClick = ({ target }) => {
     const { dispatch } = this.props;
     dispatch(actionDeleteDespesa(target.id));
@@ -47,11 +36,11 @@ class Table extends Component {
                 <td>{ despesa.tag }</td>
                 <td>{ despesa.method }</td>
                 <td>{ parseFloat(despesa.value).toFixed(2) }</td>
-                <td>{ this.getCurrencyDescFromRates(despesa) }</td>
-                <td>{ parseFloat(this.getAskFromRates(despesa)).toFixed(2) }</td>
+                <td>{ getCurrencyDescFromRates(despesa) }</td>
+                <td>{ parseFloat(getAskFromRates(despesa)).toFixed(2) }</td>
                 <td>
                   {
-                    (parseFloat(this.getAskFromRates(despesa))
+                    (parseFloat(getAskFromRates(despesa))
                     * parseFloat(despesa.value)).toFixed(2)
                   }
                 </td>
